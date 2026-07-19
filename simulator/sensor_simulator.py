@@ -1,31 +1,51 @@
+import csv
 import random
 import time
+from datetime import datetime
 
-print("MotorSense AI Simulator Started...\n")
+filename = "../dataset/motor_data.csv"
 
-while True:
+with open(filename, "w", newline="") as file:
 
-    status = random.choice(["Healthy", "Warning", "Critical"])
+    writer = csv.writer(file)
 
-    if status == "Healthy":
-        temperature = random.uniform(35, 45)
-        current = random.uniform(2.8, 3.5)
-        vibration = random.uniform(0.10, 0.30)
+    writer.writerow([
+        "Timestamp",
+        "Temperature",
+        "Current",
+        "Vibration",
+        "Status"
+    ])
 
-    elif status == "Warning":
-        temperature = random.uniform(46, 60)
-        current = random.uniform(3.6, 4.5)
-        vibration = random.uniform(0.31, 0.80)
+    print("Generating dataset...\n")
 
-    else:
-        temperature = random.uniform(61, 80)
-        current = random.uniform(4.6, 6.0)
-        vibration = random.uniform(0.81, 1.50)
+    for i in range(100):
 
-    print("--------------------------------")
-    print(f"Status      : {status}")
-    print(f"Temperature : {temperature:.2f} °C")
-    print(f"Current     : {current:.2f} A")
-    print(f"Vibration   : {vibration:.2f} g")
+        status = random.choice(["Healthy", "Warning", "Critical"])
 
-    time.sleep(2)
+        if status == "Healthy":
+            temperature = round(random.uniform(35,45),2)
+            current = round(random.uniform(2.8,3.5),2)
+            vibration = round(random.uniform(0.10,0.30),2)
+
+        elif status == "Warning":
+            temperature = round(random.uniform(46,60),2)
+            current = round(random.uniform(3.6,4.5),2)
+            vibration = round(random.uniform(0.31,0.80),2)
+
+        else:
+            temperature = round(random.uniform(61,80),2)
+            current = round(random.uniform(4.6,6.0),2)
+            vibration = round(random.uniform(0.81,1.50),2)
+
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        writer.writerow([
+            timestamp,
+            temperature,
+            current,
+            vibration,
+            status
+        ])
+
+print("Dataset Generated Successfully!")
